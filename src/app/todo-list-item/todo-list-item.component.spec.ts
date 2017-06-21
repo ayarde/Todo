@@ -1,25 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Todo } from '../todo';
 
-import { TodoListItemComponent } from './todo-list-item.component';
+@Component({
+  selector: 'app-todo-list-item',
+  templateUrl: './todo-list-item.component.html',
+  styleUrls: ['./todo-list-item.component.css']
+})
 
-describe('TodoListItemComponent', () => {
-  let component: TodoListItemComponent;
-  let fixture: ComponentFixture<TodoListItemComponent>;
+export class TodoListItemComponent {
+  @Input() todo: Todo;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TodoListItemComponent ]
-    })
-    .compileComponents();
-  }));
+  @Output()
+  remove: EventEmitter<Todo> = new EventEmitter();
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TodoListItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  @Output()
+  toggleComplete: EventEmitter<Todo> = new EventEmitter();
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  constructor() {
+  }
+
+  toggleTodoComplete(todo: Todo) {
+    this.toggleComplete.emit(todo);
+  }
+
+  removeTodo(todo: Todo) {
+    this.remove.emit(todo);
+  }
+
+}
